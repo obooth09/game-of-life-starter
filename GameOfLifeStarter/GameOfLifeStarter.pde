@@ -11,16 +11,35 @@ void setup() {
   grid = new int[height / SPACING][width / SPACING];
 
   // STEP 1 - Populate initial grid (you may want to use Arrays.toString to check it)
+  for (int row = 0; row < height / SPACING; row++){
+    for (int col = 0; col < width / SPACING; col++){
+      if (Math.random() < DENSITY){
+        grid[row][col] = 1;
+      } else {
+        grid[row][col] = 0;
+      }
+    }
+  }
 
 }
 
 void draw() {
   showGrid(); // STEP 2 - Implement this method so you can see your 2D array
-  // grid = calcNextGrid(); // uncomment this after you get showGrid() working
+  grid = calcNextGrid(); // uncomment this after you get showGrid() working
 }
 
 int[][] calcNextGrid() {
   int[][] nextGrid = new int[grid.length][grid[0].length];
+  
+  for (int row = 0; row < grid.length; row++){
+    for (int col = 0; col < grid[0].length; col++){
+      int neighbors = countNeighbors(row, col);
+
+      if (grid [row][col] == 1){
+        
+      }
+    }
+  }
 
   // your code here
 
@@ -30,18 +49,52 @@ int[][] calcNextGrid() {
 int countNeighbors(int y, int x) {
   int n = 0; // don't count yourself!
   
-  // your code here
-  // don't check out-of-bounds cells!
+  for (int row = 0; row < height / SPACING; row++){
+    for (int col = 0; col < width / SPACING; col++){
+      int topNum = 0;
+      int bottomNum = 0;
+      int leftNum = 0;
+      int rightNum = 0;
+      int topRight = 0;
+      int bottomRight = 0;
+      int bottomLeft = 0;
+      int topLeft = 0;
 
-  return n;
+      //top
+      if (y > 0) topNum = grid[y - 1][x];
+      //bottom
+      if (y < grid.length - 1) bottomNum = grid[y + 1][x];
+      //left
+      if (x > 0) leftNum = grid [y][x - 1];
+      //right
+      if (x < grid.length - 1) rightNum = grid[y][x + 1];
+      //top left
+      if (y > 0 && x > 0) topLeft = grid[y - 1][x - 1];
+      //top right
+      if (y > 0 && (x < grid[0].length - 1)) topRight = grid[y - 1][x + 1];
+      // bottom left
+      if (y < grid.length - 1 && x > 0) bottomLeft = grid[y + 1][x - 1];
+      //bottom right
+      if (y < grid.length - 1 && x < grid[0].length - 1) bottomRight = grid[y + 1][x + 1];
+      //add the numbers
+       n = topNum + bottomNum + leftNum + rightNum + topLeft + topRight + bottomLeft + bottomRight;   
+    }
+
+  }
+    return n;
 }
 
 void showGrid() {
   // your code here
-  for (int row = 0; row < width / SPACING; row++){
-    for (int col = 0; col < height / SPACING; col++){
-      fill (66, 119, 212);
-      square(row * SPACING, col * SPACING, SPACING);
+  for (int row = 0; row < height / SPACING; row++){
+    for (int col = 0; col < width / SPACING; col++){
+      if (grid[row][col] == 0){
+        fill (240, 98, 98);
+      } else {
+        fill (214, 212, 212);   
+      }
+      
+      square(col * SPACING, row * SPACING, SPACING);
     }
   }
   // use square() to represent each cell
