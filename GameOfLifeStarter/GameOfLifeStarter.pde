@@ -81,9 +81,9 @@ void showGrid() {
   for (int row = 0; row < height / SPACING; row++) {
     for (int col = 0; col < width / SPACING; col++) {
       if (grid[row][col] == 0) {
-        fill (214, 212, 212);
+        fill (0,0,0);
       } else {
-        fill ((int) random(1,256), (int) random(1,256), (int) random(1,256));
+        fill (252, 35, 238);
       }
 
       square(col * SPACING, row * SPACING, SPACING);
