@@ -28,14 +28,10 @@ int[][] calcNextGrid() {
   for (int row = 0; row < grid.length; row++) {
     for (int col = 0; col < grid[0].length; col++) {
       int neighbors = countNeighbors(row, col);
-
       boolean bouttaLive = (grid[row][col] == 1 && (neighbors == 2 || neighbors == 3)) || (grid[row][col] == 0 && neighbors == 3);
       nextGrid[row][col] = bouttaLive? 1 : 0;
     }
   }
-
-  // your code here
-
   return nextGrid;
 }
 
@@ -69,6 +65,7 @@ int countNeighbors(int y, int x) {
       if (y < grid.length - 1 && x > 0) bottomLeft = grid[y + 1][x - 1];
       //bottom right
       if (y < grid.length - 1 && x < grid[0].length - 1) bottomRight = grid[y + 1][x + 1];
+
       //add the numbers
       n = topNum + bottomNum + leftNum + rightNum + topLeft + topRight + bottomLeft + bottomRight;
     }
@@ -77,22 +74,16 @@ int countNeighbors(int y, int x) {
 }
 
 void showGrid() {
-  // your code here
   for (int row = 0; row < height / SPACING; row++) {
     for (int col = 0; col < width / SPACING; col++) {
       if (grid[row][col] == 0) {
-        fill (0,0,0);
+        fill (0, 0, 0);
       } else {
         fill (252, 35, 238);
       }
-
       square(col * SPACING, row * SPACING, SPACING);
     }
   }
-  // use square() to represent each cell
-  // use fill(r, g, b) to control color: black for empty, red for filled (or alive)
-  // each square (cell) has a width and height of SPACING.
-  // you will need to calculate the x and y position as you loop through the grid
 }
 
 // i looked up how processing detects a key
