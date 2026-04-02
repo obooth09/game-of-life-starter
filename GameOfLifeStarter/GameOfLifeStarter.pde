@@ -12,16 +12,7 @@ void setup() {
   grid = new int[height / SPACING][width / SPACING];
 
   // STEP 1 - Populate initial grid (you may want to use Arrays.toString to check it)
-  for (int row = 0; row < height / SPACING; row++){
-    for (int col = 0; col < width / SPACING; col++){
-      if (Math.random() < DENSITY){
-        grid[row][col] = 1;
-      } else {
-        grid[row][col] = 0;
-      }
-    }
-  }
-
+  fillGridRandomly();
 }
 
 void draw() {
@@ -29,14 +20,13 @@ void draw() {
   if (!paused) {
     grid = calcNextGrid();
   }
-
 }
 
 int[][] calcNextGrid() {
   int[][] nextGrid = new int[grid.length][grid[0].length];
-  
-  for (int row = 0; row < grid.length; row++){
-    for (int col = 0; col < grid[0].length; col++){
+
+  for (int row = 0; row < grid.length; row++) {
+    for (int col = 0; col < grid[0].length; col++) {
       int neighbors = countNeighbors(row, col);
 
       boolean bouttaLive = (grid[row][col] == 1 && (neighbors == 2 || neighbors == 3)) || (grid[row][col] == 0 && neighbors == 3);
@@ -51,9 +41,9 @@ int[][] calcNextGrid() {
 
 int countNeighbors(int y, int x) {
   int n = 0; // don't count yourself!
-  
-  for (int row = 0; row < height / SPACING; row++){
-    for (int col = 0; col < width / SPACING; col++){
+
+  for (int row = 0; row < height / SPACING; row++) {
+    for (int col = 0; col < width / SPACING; col++) {
       int topNum = 0;
       int bottomNum = 0;
       int leftNum = 0;
@@ -80,36 +70,55 @@ int countNeighbors(int y, int x) {
       //bottom right
       if (y < grid.length - 1 && x < grid[0].length - 1) bottomRight = grid[y + 1][x + 1];
       //add the numbers
-       n = topNum + bottomNum + leftNum + rightNum + topLeft + topRight + bottomLeft + bottomRight;   
+      n = topNum + bottomNum + leftNum + rightNum + topLeft + topRight + bottomLeft + bottomRight;
     }
-
   }
-    return n;
+  return n;
 }
 
 void showGrid() {
   // your code here
-  for (int row = 0; row < height / SPACING; row++){
-    for (int col = 0; col < width / SPACING; col++){
-      if (grid[row][col] == 0){
-        fill (214, 212, 212); 
+  for (int row = 0; row < height / SPACING; row++) {
+    for (int col = 0; col < width / SPACING; col++) {
+      if (grid[row][col] == 0) {
+        fill (214, 212, 212);
       } else {
         fill (240, 98, 98);
       }
-      
+
       square(col * SPACING, row * SPACING, SPACING);
     }
   }
   // use square() to represent each cell
   // use fill(r, g, b) to control color: black for empty, red for filled (or alive)
-  // each square (cell) has a width and height of SPACING. 
+  // each square (cell) has a width and height of SPACING.
   // you will need to calculate the x and y position as you loop through the grid
-
 }
 
 // i looked up how processing detects a key
 void keyPressed() {
-  if (key == ' '){
+  if (key == ' ') {
     paused = !paused;
   }
+
+  if (key == 'r') {
+    restartCells();
+  }
 }
+
+void restartCells() {
+  fillGridRandomly();
+}
+
+void fillGridRandomly() {
+  for (int row = 0; row < height / SPACING; row++) {
+    for (int col = 0; col < width / SPACING; col++) {
+      if (Math.random() < DENSITY) {
+        grid[row][col] = 1;
+      } else {
+        grid[row][col] = 0;
+      }
+    }
+  }
+}
+
