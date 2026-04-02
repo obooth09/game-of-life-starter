@@ -1,8 +1,9 @@
 import java.util.Arrays;
 
-final int SPACING = 20; // each cell's width/height //<>// //<>//
-final float DENSITY = 0.1; // how likely each cell is to be alive at the start
+final int SPACING = 9; // each cell's width/height //<>// //<>//
+final float DENSITY = 0.2; // how likely each cell is to be alive at the start
 int[][] grid; // the 2D array to hold 0's and 1's
+boolean paused = false;
 
 void setup() {
   size(800, 600); // adjust accordingly, make sure it's a multiple of SPACING
@@ -25,7 +26,10 @@ void setup() {
 
 void draw() {
   showGrid(); // STEP 2 - Implement this method so you can see your 2D array
-  grid = calcNextGrid(); // uncomment this after you get showGrid() working
+  if (!paused) {
+    grid = calcNextGrid();
+  }
+
 }
 
 int[][] calcNextGrid() {
@@ -35,9 +39,8 @@ int[][] calcNextGrid() {
     for (int col = 0; col < grid[0].length; col++){
       int neighbors = countNeighbors(row, col);
 
-      if (grid [row][col] == 1){
-        
-      }
+      boolean bouttaLive = (grid[row][col] == 1 && (neighbors == 2 || neighbors == 3)) || (grid[row][col] == 0 && neighbors == 3);
+      nextGrid[row][col] = bouttaLive? 1 : 0;
     }
   }
 
@@ -89,9 +92,9 @@ void showGrid() {
   for (int row = 0; row < height / SPACING; row++){
     for (int col = 0; col < width / SPACING; col++){
       if (grid[row][col] == 0){
-        fill (240, 98, 98);
+        fill (214, 212, 212); 
       } else {
-        fill (214, 212, 212);   
+        fill (240, 98, 98);
       }
       
       square(col * SPACING, row * SPACING, SPACING);
@@ -102,4 +105,11 @@ void showGrid() {
   // each square (cell) has a width and height of SPACING. 
   // you will need to calculate the x and y position as you loop through the grid
 
+}
+
+// i looked up how processing detects a key
+void keyPressed() {
+  if (key == ' '){
+    paused = !paused;
+  }
 }
