@@ -91,7 +91,6 @@ void keyPressed() {
   if (key == ' ') {
     paused = !paused;
   }
-
   if (key == 'r') {
     restartCells();
   }
@@ -104,6 +103,7 @@ void restartCells() {
 void fillGridRandomly() {
   for (int row = 0; row < height / SPACING; row++) {
     for (int col = 0; col < width / SPACING; col++) {
+      //assign cell's status based on density
       if (Math.random() < DENSITY) {
         grid[row][col] = 1;
       } else {
