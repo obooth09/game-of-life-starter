@@ -83,7 +83,7 @@ void showGrid() {
       if (grid[row][col] == 0) {
         fill (214, 212, 212);
       } else {
-        fill (240, 98, 98);
+        fill ((int) random(1,256), (int) random(1,256), (int) random(1,256));
       }
 
       square(col * SPACING, row * SPACING, SPACING);
